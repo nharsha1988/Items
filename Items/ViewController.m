@@ -15,6 +15,7 @@
     DataManager *_dataManager;
     NSMutableArray *_dataArray;
     NSInteger _index;
+    UIActivityIndicatorView *_activityIndicator;
 }
 @end
 
@@ -31,6 +32,11 @@
     _dataManager.delegate = self;
     [_dataManager start];
     
+    
+    _activityIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    _activityIndicator.center = CGPointMake(self.view.frame.size.width/2.0f, self.view.frame.size.height/2.0f);
+    [self.view addSubview:_activityIndicator];
+    [_activityIndicator startAnimating];
     // Do any additional setup after loading the view, typically from a nib.
 }
 
@@ -41,6 +47,7 @@
 
 #pragma mark NewsDataManagerDelegate methods
 -(void)dataDownloaded:(NSMutableArray *)dataArray{
+    [_activityIndicator removeFromSuperview];
     _dataArray = dataArray;
     [_tableView reloadData];
 }
